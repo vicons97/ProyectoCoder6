@@ -1,15 +1,19 @@
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zapatos</title>
-</head>
-<body>
 
-    <h1>Aqui hay zapatos...</h1>
+{% extends 'padre.html' %}
 
-    <p>Aqui tenemos muchos zapatos!</p>
+{% load static %}
+
+{% block bloqueQueCambia %}
     
-</body>
-</html>
+    <h1>Seccion de Zapatos</h1>
+
+    <P>Aqui tenemos la pantalla de zapatos</P>
+    <br>
+    <p>Zapatos de distintos tipos!!</p>
+    <br>
+    <p>Choclo!!</p>
+    <br>
+    <p>Bota!!</p>
+
+{% endblock bloqueQueCambia %}
+    
