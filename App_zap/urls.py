@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from App_zap.views import accesorios, proveedores, sucursales, zapatos, inicio
+from App_zap.views import accesorios, lista_zapatos, proveedores, sucursales, zapato, zapatos, inicio
 
 urlpatterns = [
     
@@ -10,4 +10,8 @@ urlpatterns = [
     path('proveedores/',proveedores),
     path('sucursales/',sucursales),
     path('',inicio),
+    path('agrega-zapato/<modelo>/<talla>/<color>/<precio>/', zapato),
+    path('lista-zapatos/',lista_zapatos),
+
 ]
+

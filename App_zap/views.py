@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from App_zap.models import Zapatos
+
 # Create your views here.
 
 
@@ -22,5 +24,21 @@ def proveedores(self):
 def sucursales(self):
 
     return render(self, "sucursales.html")
+
+
+def zapato(self, modelo, talla, color, precio):
+
+    zapato = Zapatos(modelo = modelo, talla = talla, color = color, precio = precio)
+    zapato.save()
+
+    return render(self, "zapato.html", {'zapato': zapato})
+
+
+def lista_zapatos(self):
+
+    lista = Zapatos.objects.all()
+
+    return render(self, "lista_zapatos.html", {'lista_zapatos': lista})
+
 
 
