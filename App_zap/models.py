@@ -9,6 +9,17 @@ class Zapatos(models.Model):
     talla = models.FloatField()
     precio = models.FloatField()
 
+    def __str__(self) -> str:
+        return f'{self.modelo} - {self.color} - {self.talla}'
+
+    class Meta():
+        verbose_name = 'My Shoe'
+        verbose_name_plural = "My Shoes"
+        ordering = ('-modelo','-talla')
+        unique_together = ('modelo','talla')
+
+
+
 class Accesorios(models.Model):
 
     modelo = models.CharField(max_length=50)
