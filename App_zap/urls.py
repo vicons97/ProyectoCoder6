@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from App_zap.views import accesorios, lista_zapatos, proveedores, sucursales, zapato, zapatos, inicio
+from App_zap.views import accesorioFormulario, accesorios, lista_zapatos, proveedores, sucursales, zapato, zapatos, inicio
 
 urlpatterns = [
     
@@ -12,6 +12,7 @@ urlpatterns = [
     path('',inicio, name="Inicio"),
     path('agrega-zapato/<modelo>/<talla>/<color>/<precio>/', zapato),
     path('lista-zapatos/',lista_zapatos),
+    path('accesorioFormulario/',accesorioFormulario, name="AccesorioFormulario"),
 
 ]
 

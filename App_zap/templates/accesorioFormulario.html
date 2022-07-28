@@ -1,0 +1,21 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+    <h1>Seccion de accesorios con Formulario</h1>
+
+    <form action="{% url 'AccesorioFormulario' %}" method = "POST">{% csrf_token %}
+
+        <p>Modelo: <input type="text" name="modelo"></p>
+        <p>Talla: <input type="number" name="talla"></p>
+        <p>Color: <input type="text" name="color"></p>
+        <p>Precio: <input type="number" name="precio"></p>
+
+
+        <input type="submit" value="Enviar">
+
+    </form>
+
+{% endblock bloqueQueCambia %}

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-from App_zap.models import Zapatos
+from App_zap.models import Accesorios, Zapatos
 
 # Create your views here.
 
@@ -41,4 +41,17 @@ def lista_zapatos(self):
     return render(self, "lista_zapatos.html", {'lista_zapatos': lista})
 
 
+def accesorioFormulario(request):
 
+    if request.method == 'POST':
+        accesorios = Accesorios(modelo = request.POST['modelo'], color = request.POST['color'], talla = request.POST['talla'], precio=request.POST['precio'])
+
+        accesorios.save()
+
+        return render(request, 'inicio.html')
+
+
+    return render(request, "accesorioFormulario.html")
+
+
+    
