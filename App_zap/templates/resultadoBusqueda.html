@@ -1,0 +1,39 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+
+<p> Estamos buscando los modelos con: {{modelo}}</p>
+
+
+    
+    {% if modelo %}
+
+        <ul>
+
+            
+            {% for modelos in modelo %}
+
+                <li>
+
+                 
+                    {{modelos.modelo}} - {{modelos.talla}}
+              
+                </li>
+                
+            {% endfor %}
+                
+
+
+        </ul>
+
+    {% else %}
+
+        <p>no hubo coincidencias!</p>
+
+    {% endif %}
+        
+
+{% endblock bloqueQueCambia %}

@@ -1,0 +1,17 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+    <h1>Seccion de busqueda de accesorios</h1>
+
+    <form action= "{% url 'buscar' %}" method = "GET">{% csrf_token %}
+
+        <p>modelo: <input type ="text" name="modelo"></p>
+
+        <input type="submit" value="buscar">
+
+    </form>
+
+{% endblock bloqueQueCambia %}
