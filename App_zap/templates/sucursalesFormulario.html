@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+    <h1>Seccion de sucursales con Formulario</h1>
+
+    <form action="{% url 'creaSucursal' %}" method = "POST">{% csrf_token %}
+
+        {{miFormulario.as_p}}
+
+
+        <input type="submit" value="Enviar">
+
+    </form>
+
+{% endblock bloqueQueCambia %}

@@ -1,0 +1,37 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+
+<h1>Lista de Sucursales</h1>
+
+<ul>
+
+    
+    {% for sucursal in sucursales %}
+
+        <li>{{sucursal}}</li>
+        <div>
+
+            <form action="{% url 'eliminarSucursal' sucursal.id %}" method="POST">{% csrf_token %}
+
+                <button type="submit">Eliminar</button>
+
+            </form>
+
+            <button>
+                <a href="{% url 'editarSucursal' sucursal.id %}">Editar</a>
+            </button>
+
+        </div>
+        
+    {% endfor %}
+        
+
+</ul>
+
+<a href="{% url 'creaSucursal' %}"> Crea Sucursal </a>
+
+{% endblock bloqueQueCambia %}

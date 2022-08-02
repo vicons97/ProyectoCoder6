@@ -1,0 +1,27 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+
+    <h1>Lista de Proveedores</h1>
+
+    <ul>
+
+    
+        {% for proveedor in proveedores %}
+
+            <li>
+                <a href = "{% url 'proveedor-detail' proveedor.id}">{{proveedor}}</a>
+        
+            </li>
+        
+        {% endfor %}
+        
+
+    </ul>
+
+    <a href="{% url 'creaProveedor' %}"> Crea Proveedor </a>
+
+{% endblock bloqueQueCambia %}

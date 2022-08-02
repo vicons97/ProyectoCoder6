@@ -11,4 +11,10 @@ class AccesorioFormulario(forms.Form):
     precio = forms.IntegerField()
 
     
+class SucursalFormulario(forms.Form):
+    num_Sucursal = forms.IntegerField()
+    nombre_sucursal = forms.CharField(max_length=50)
+    direccion = forms.CharField(max_length=50)
+
+
 

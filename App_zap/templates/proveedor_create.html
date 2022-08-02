@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+    <h1>Seccion de proveedores con Formulario</h1>
+
+    <form action="{% url 'creaProveedor' id %}" method = "POST">{% csrf_token %}
+
+        {{form.as_p}}
+
+
+        <input type="submit" value="Enviar">
+
+    </form>
+
+{% endblock bloqueQueCambia %}

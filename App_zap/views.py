@@ -1,10 +1,13 @@
 
+from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_zap.forms import AccesorioFormulario
+from App_zap.forms import AccesorioFormulario, SucursalFormulario
 
-from App_zap.models import Accesorios, Zapatos
+from django.views.generic import ListView, DeleteView, CreateView, UpdateView, DetailView
+
+from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
 
 # Create your views here.
 
@@ -105,7 +108,112 @@ def buscar(request):
 
 
 
-   
 
 
+def listaSucursales(request):
+
+    sucursales = Sucursales.objects.all()
+
+    contexto = {"sucursales": sucursales}
+
+    return render(request, "leerSucursales.html", contexto)
+
+
+
+def crea_sucursal(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = SucursalFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            sucursales = Sucursales(num_Sucursal = data['num_Sucursal'], nombre_sucursal = data['nombre_sucursal'], direccion = data['direccion'])
+            sucursales.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = SucursalFormulario()  
+
+    return render(request, "sucursalesFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarSucursal(request, id):
+
+    if request.method == 'POST':
+
+        sucursal = Sucursales.objects.get(id = id)
+
+        sucursal.delete()
+
+        sucursales = Sucursales.objects.all()
+
+        contexto = {"sucursales": sucursales}
+
+        return render(request, "leerSucursales.html", contexto)  
+
+
+def editar_sucursal(request, id):
+
+    sucursal = Sucursales.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = SucursalFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            sucursal.num_Sucursal = data["num_Sucursal"]
+            sucursal.nombre_sucursal = data["nombre_sucursal"]
+            sucursal.direccion = data["direccion"]
+            sucursal.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = SucursalFormulario(initial={
+
+            "num_Sucursal": sucursal.num_Sucursal,
+            "nombre_sucursal": sucursal.nombre_sucursal,
+            "direccion": sucursal.direccion,
+        })  
+
+    return render(request, "editarFormulario.html", {"miFormulario": miFormulario, "id": sucursal.id})
+
+
+class ProveedorList(ListView):
+
+    model = Proveedores
+    template_name = 'proveedor_list.html'
+    context_object_name = 'proveedores'
+
+class ProveedorDetail(DetailView):
+
+    model = Proveedores
+    template_name = 'proveedor-detail.html'
+    context_object_name = 'proveedor'
+
+class ProveedorCreate(CreateView):
+
+    model = Proveedores
+    template_name = 'proveedor_create.html'
+    fields = ["nombre", "email", "fecha_de_afiliacion"]
+    success_url = '/App_zap/'
+
+class ProveedorUpdate(UpdateView):
+
+    model = Proveedores
+    template_name = 'proveedor_update.html'
+
+class ProveedorDelete(DeleteView):
+
+    model = Proveedores
+    template_name = 'proveedor_delete.html'
 
