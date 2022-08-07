@@ -15,3 +15,7 @@ en Accesorios hay un formulario para llenar accesorios,
 En Sucursales ya use el metodo CRUD largo, donde puedes visualizar las sucursales que hay, puedes agregar, eliminar o ediar, 
 
 Por ultimo esta el apartado de Proveedores el cual le quise implementar el metodo CRUD corto, este todavia no me corre ...
+
+
+Nota de equipo:
+Comrobacion de correcciones!
