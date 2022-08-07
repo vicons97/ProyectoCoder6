@@ -209,11 +209,14 @@ class ProveedorCreate(CreateView):
 
 class ProveedorUpdate(UpdateView):
 
-    model = Proveedores
-    template_name = 'proveedor_update.html'
+    model = Proveedores 
+    success_url = '/App_zap/'
+    fields = ["nombre", "email", "fecha_de_afiliacion"]
+    
+   
 
 class ProveedorDelete(DeleteView):
 
     model = Proveedores
-    template_name = 'proveedor_delete.html'
+    success_url = '/App_zap/'
 

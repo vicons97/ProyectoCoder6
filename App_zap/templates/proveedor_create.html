@@ -6,7 +6,7 @@
     
     <h1>Seccion de proveedores con Formulario</h1>
 
-    <form action="{% url 'creaProveedor' id %}" method = "POST">{% csrf_token %}
+    <form action="{% url 'creaProveedor' %}" method = "POST">{% csrf_token %}
 
         {{form.as_p}}
 

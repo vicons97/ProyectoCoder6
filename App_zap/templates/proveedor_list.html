@@ -13,7 +13,7 @@
         {% for proveedor in proveedores %}
 
             <li>
-                <a href = "{% url 'proveedor-detail' proveedor.id}">{{proveedor}}</a>
+                <a href = "{% url 'proveedor-detail' % proveedor.id}">{{proveedor}}</a>
         
             </li>
         

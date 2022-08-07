@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from App_zap.views import ProveedorCreate, ProveedorDetail, ProveedorList, accesorioFormulario, accesorios, buscar, busquedaModelo, crea_sucursal, editar_sucursal, eliminarSucursal, lista_zapatos, listaSucursales, proveedores, sucursales, zapato, zapatos, inicio
+from App_zap.views import ProveedorCreate, ProveedorDelete, ProveedorDetail, ProveedorList, ProveedorUpdate, accesorioFormulario, accesorios, buscar, busquedaModelo, crea_sucursal, editar_sucursal, eliminarSucursal, lista_zapatos, listaSucursales, proveedores, sucursales, zapato, zapatos, inicio
 
 urlpatterns = [
     
@@ -20,8 +20,10 @@ urlpatterns = [
     path('elimina-sucursal/<int:id>',eliminarSucursal, name="eliminarSucursal"),
     path('edita-sucursal/<int:id>',editar_sucursal, name="editarSucursal"),
     path('listaProveedores/',ProveedorList.as_view(), name="listaProveedores"),
-    path('detalleProveedores/<int:pk>',ProveedorDetail.as_view(), name="proveedor-detail"),
-    path('creaProveedores/<int:pk>',ProveedorCreate.as_view(), name="creaProveedor"),
+    path('detalleProveedores/',ProveedorDetail.as_view(), name="proveedor-detail"),
+    path('creaProveedores/',ProveedorCreate.as_view(), name="creaProveedor"),
+    path('UpdateProveedores/',ProveedorUpdate.as_view(), name="UpdateProveedor"),
+    path('DeleteProveedores/',ProveedorDelete.as_view(), name="DeleteProveedor"),
 
 
 ]
