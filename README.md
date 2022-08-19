@@ -16,7 +16,4 @@ En Sucursales ya use el metodo CRUD largo, donde puedes visualizar las sucursale
 
 Por ultimo esta el apartado de Proveedores el cual le quise implementar el metodo CRUD corto, este todavia no me corre ...
 
-
-ESTOY HACIENDO UN CAMBIO EN MI BRANCH! 
-
-
+Hola Vicente 
