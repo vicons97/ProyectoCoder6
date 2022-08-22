@@ -5,8 +5,8 @@ from django import forms
 
 class AccesorioFormulario(forms.Form):
 
-    modelo = forms.CharField()
-    color = forms.CharField()
+    modelo = forms.CharField(max_length=50)
+    color = forms.CharField(max_length=50)
     talla = forms.IntegerField()
     precio = forms.IntegerField()
 

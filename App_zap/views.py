@@ -1,4 +1,5 @@
 
+from http.client import OK
 from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
@@ -61,53 +62,8 @@ def lista_zapatos(self):
    #    return render(request, "accesorioFormulario.html")
 
 
-def accesorioFormulario(request):
 
-    if request.method == 'POST':
-    
-        miFormulario = AccesorioFormulario(request.POST)
-
-        if miFormulario.is_valid():
-
-            data = miFormulario.cleaned_data
-
-            accesorios = Accesorios(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio=data['precio'])
-            accesorios.save()
-
-            return render(request, 'inicio.html')
-
-    else:
-
-        miFormulario = AccesorioFormulario()  
-
-    return render(request, "accesorioFormulario.html", {"miFormulario": miFormulario})
-
-
-
-def busquedaModelo(request):
-
-    return render(request, 'busquedaModelo.html')
-
-def buscar(request):
-
-    if request.GET["modelo"]:
-
-        modelo = request.GET["modelo"]
-
-        talla = Accesorios.objects.filter(modelo__icontains=modelo)
-
-
-
-        return render(request, "resultadoBusqueda.html", {"modelo":modelo, "talla":talla})
-
-    else:
-
-        respuesta = "No enviaste datos"
-
-    return HttpResponse(respuesta)
-
-
-
+# Inicio de funcionalidades de Sucursales
 
 
 def listaSucursales(request):
@@ -188,6 +144,97 @@ def editar_sucursal(request, id):
     return render(request, "editarFormulario.html", {"miFormulario": miFormulario, "id": sucursal.id})
 
 
+
+#espacio para separar las funcionalidades de accesorios
+
+def listaAccesorios(request):
+
+    accesorios = Accesorios.objects.all()
+
+    contexto = {"accesorios": accesorios}
+
+    return render(request, "leerAccesorios.html", contexto)
+
+
+
+def creaAccesorio(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = AccesorioFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            accesorios = Accesorios(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio = data['precio'])
+            accesorios.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = AccesorioFormulario()  
+
+    return render(request, "accesoriosFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarAccesorio(request, id):
+
+    if request.method == 'POST':
+
+        accesorios = Accesorios.objects.get(id = id)
+
+        accesorios.delete()
+
+        accesorios = Accesorios.objects.all()
+
+        contexto = {"accesorios": accesorios}
+
+        return render(request, "leerAccesorios.html", contexto)  
+
+
+def editarAccesorio(request, id):
+
+    accesorios = Accesorios.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = AccesorioFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            accesorios.modelo = data["modelo"]
+            accesorios.color = data["color"]
+            accesorios.talla = data["talla"]
+            accesorios.precio = data["precio"]
+            accesorios.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = AccesorioFormulario(initial={
+
+            "modelo": accesorios.modelo,
+            "color": accesorios.color,
+            "talla": accesorios.talla,
+            "precio": accesorios.precio,
+        })  
+
+    return render(request, "editarAccesorio.html", {"miFormulario": miFormulario, "id": accesorios.id})
+
+
+
+
+
+
+
+
+
+
 class ProveedorList(ListView):
 
     model = Proveedores
@@ -219,4 +266,6 @@ class ProveedorDelete(DeleteView):
 
     model = Proveedores
     success_url = '/App_zap/'
+
+
 
