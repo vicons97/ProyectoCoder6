@@ -3,7 +3,7 @@ from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_zap.forms import AccesorioFormulario, SucursalFormulario
+from App_zap.forms import AccesorioFormulario, SucursalFormulario, ZapatoFormulario
 
 from django.views.generic import ListView, DeleteView, CreateView, UpdateView, DetailView
 
@@ -31,21 +31,6 @@ def proveedores(self):
 def sucursales(self):
 
     return render(self, "sucursales.html")
-
-
-
-
-   # def accesorioFormulario(request):
-
-   #     if request.method == 'POST':
-   #         accesorios = Accesorios(modelo = request.POST['modelo'], color = request.POST['color'], talla = request.POST['talla'], precio=request.POST['precio'])
-
-   #        accesorios.save()
-
-   #         return render(request, 'inicio.html')
-
-
-   #    return render(request, "accesorioFormulario.html")
 
 
 
@@ -213,9 +198,86 @@ def editarAccesorio(request, id):
     return render(request, "editarAccesorio.html", {"miFormulario": miFormulario, "id": accesorios.id})
 
 
+#Inicio de funcionalidades para Zapatos
+
+def listaZapatos(request):
+
+    zapatos = Zapatos.objects.all()
+
+    contexto = {"zapatos": zapatos}
+
+    return render(request, "leerZapatos.html", contexto)
 
 
 
+def creaZapato(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = ZapatoFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            zapatos = Zapatos(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio = data['precio'])
+            zapatos.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ZapatoFormulario()  
+
+    return render(request, "zapatosFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarZapato(request, id):
+
+    if request.method == 'POST':
+
+        zapatos = Zapatos.objects.get(id = id)
+
+        zapatos.delete()
+
+        zapatos = Zapatos.objects.all()
+
+        contexto = {"zapatos": zapatos}
+
+        return render(request, "leerZapatos.html", contexto)  
+
+
+def editarZapato(request, id):
+
+    zapatos = Zapatos.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = ZapatoFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            zapatos.modelo = data["modelo"]
+            zapatos.color = data["color"]
+            zapatos.talla = data["talla"]
+            zapatos.precio = data["precio"]
+            zapatos.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ZapatoFormulario(initial={
+
+            "modelo": zapatos.modelo,
+            "color": zapatos.color,
+            "talla": zapatos.talla,
+            "precio": zapatos.precio,
+        })  
+
+    return render(request, "editarZapato.html", {"miFormulario": miFormulario, "id": zapatos.id})
 
 
 
