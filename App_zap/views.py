@@ -3,9 +3,8 @@ from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_zap.forms import AccesorioFormulario, SucursalFormulario
+from App_zap.forms import AccesorioFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
 
-from django.views.generic import ListView, DeleteView, CreateView, UpdateView, DetailView
 
 from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
 
@@ -33,81 +32,8 @@ def sucursales(self):
     return render(self, "sucursales.html")
 
 
-def zapato(self, modelo, talla, color, precio):
 
-    zapato = Zapatos(modelo = modelo, talla = talla, color = color, precio = precio)
-    zapato.save()
-
-    return render(self, "zapato.html", {'zapato': zapato})
-
-
-def lista_zapatos(self):
-
-    lista = Zapatos.objects.all()
-
-    return render(self, "lista_zapatos.html", {'lista_zapatos': lista})
-
-
-   # def accesorioFormulario(request):
-
-   #     if request.method == 'POST':
-   #         accesorios = Accesorios(modelo = request.POST['modelo'], color = request.POST['color'], talla = request.POST['talla'], precio=request.POST['precio'])
-
-   #        accesorios.save()
-
-   #         return render(request, 'inicio.html')
-
-
-   #    return render(request, "accesorioFormulario.html")
-
-
-def accesorioFormulario(request):
-
-    if request.method == 'POST':
-    
-        miFormulario = AccesorioFormulario(request.POST)
-
-        if miFormulario.is_valid():
-
-            data = miFormulario.cleaned_data
-
-            accesorios = Accesorios(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio=data['precio'])
-            accesorios.save()
-
-            return render(request, 'inicio.html')
-
-    else:
-
-        miFormulario = AccesorioFormulario()  
-
-    return render(request, "accesorioFormulario.html", {"miFormulario": miFormulario})
-
-
-
-def busquedaModelo(request):
-
-    return render(request, 'busquedaModelo.html')
-
-def buscar(request):
-
-    if request.GET["modelo"]:
-
-        modelo = request.GET["modelo"]
-
-        talla = Accesorios.objects.filter(modelo__icontains=modelo)
-
-
-
-        return render(request, "resultadoBusqueda.html", {"modelo":modelo, "talla":talla})
-
-    else:
-
-        respuesta = "No enviaste datos"
-
-    return HttpResponse(respuesta)
-
-
-
+# Inicio de funcionalidades de Sucursales
 
 
 def listaSucursales(request):
@@ -188,35 +114,249 @@ def editar_sucursal(request, id):
     return render(request, "editarFormulario.html", {"miFormulario": miFormulario, "id": sucursal.id})
 
 
-class ProveedorList(ListView):
 
-    model = Proveedores
-    template_name = 'proveedor_list.html'
-    context_object_name = 'proveedores'
+#espacio para separar las funcionalidades de accesorios
 
-class ProveedorDetail(DetailView):
+def listaAccesorios(request):
 
-    model = Proveedores
-    template_name = 'proveedor-detail.html'
-    context_object_name = 'proveedor'
+    accesorios = Accesorios.objects.all()
 
-class ProveedorCreate(CreateView):
+    contexto = {"accesorios": accesorios}
 
-    model = Proveedores
-    template_name = 'proveedor_create.html'
-    fields = ["nombre", "email", "fecha_de_afiliacion"]
-    success_url = '/App_zap/'
+    return render(request, "leerAccesorios.html", contexto)
 
-class ProveedorUpdate(UpdateView):
 
-    model = Proveedores 
-    success_url = '/App_zap/'
-    fields = ["nombre", "email", "fecha_de_afiliacion"]
+
+def creaAccesorio(request):
+
+    if request.method == 'POST':
     
-   
+        miFormulario = AccesorioFormulario(request.POST)
 
-class ProveedorDelete(DeleteView):
+        if miFormulario.is_valid():
 
-    model = Proveedores
-    success_url = '/App_zap/'
+            data = miFormulario.cleaned_data
+
+            accesorios = Accesorios(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio = data['precio'])
+            accesorios.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = AccesorioFormulario()  
+
+    return render(request, "accesoriosFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarAccesorio(request, id):
+
+    if request.method == 'POST':
+
+        accesorios = Accesorios.objects.get(id = id)
+
+        accesorios.delete()
+
+        accesorios = Accesorios.objects.all()
+
+        contexto = {"accesorios": accesorios}
+
+        return render(request, "leerAccesorios.html", contexto)  
+
+
+def editarAccesorio(request, id):
+
+    accesorios = Accesorios.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = AccesorioFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            accesorios.modelo = data["modelo"]
+            accesorios.color = data["color"]
+            accesorios.talla = data["talla"]
+            accesorios.precio = data["precio"]
+            accesorios.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = AccesorioFormulario(initial={
+
+            "modelo": accesorios.modelo,
+            "color": accesorios.color,
+            "talla": accesorios.talla,
+            "precio": accesorios.precio,
+        })  
+
+    return render(request, "editarAccesorio.html", {"miFormulario": miFormulario, "id": accesorios.id})
+
+
+#Inicio de funcionalidades para Zapatos
+
+def listaZapatos(request):
+
+    zapatos = Zapatos.objects.all()
+
+    contexto = {"zapatos": zapatos}
+
+    return render(request, "leerZapatos.html", contexto)
+
+
+
+def creaZapato(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = ZapatoFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            zapatos = Zapatos(modelo = data['modelo'], color = data['color'], talla = data['talla'], precio = data['precio'])
+            zapatos.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ZapatoFormulario()  
+
+    return render(request, "zapatosFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarZapato(request, id):
+
+    if request.method == 'POST':
+
+        zapatos = Zapatos.objects.get(id = id)
+
+        zapatos.delete()
+
+        zapatos = Zapatos.objects.all()
+
+        contexto = {"zapatos": zapatos}
+
+        return render(request, "leerZapatos.html", contexto)  
+
+
+def editarZapato(request, id):
+
+    zapatos = Zapatos.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = ZapatoFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            zapatos.modelo = data["modelo"]
+            zapatos.color = data["color"]
+            zapatos.talla = data["talla"]
+            zapatos.precio = data["precio"]
+            zapatos.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ZapatoFormulario(initial={
+
+            "modelo": zapatos.modelo,
+            "color": zapatos.color,
+            "talla": zapatos.talla,
+            "precio": zapatos.precio,
+        })  
+
+    return render(request, "editarZapato.html", {"miFormulario": miFormulario, "id": zapatos.id})
+
+
+#Inicio de funcionalidades para Proveedores
+
+def listaProveedores(request):
+
+    proveedores = Proveedores.objects.all()
+
+    contexto = {"proveedores": proveedores}
+
+    return render(request, "leerProveedores.html", contexto)
+
+
+
+def creaProveedor(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = ProveedorFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            proveedores = Proveedores(nombre = data['nombre'], email = data['email'], fecha_de_afiliacion = data['fecha_de_afiliacion'])
+            proveedores.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ProveedorFormulario()  
+
+    return render(request, "proveedoresFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarProveedor(request, id):
+
+    if request.method == 'POST':
+
+        proveedores = Proveedores.objects.get(id = id)
+
+        proveedores.delete()
+
+        proveedores = Proveedores.objects.all()
+
+        contexto = {"proveedores": proveedores}
+
+        return render(request, "leerProveedores.html", contexto)  
+
+
+def editarProveedor(request, id):
+
+    proveedores = Proveedores.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = ProveedorFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            proveedores.nombre = data["nombre"]
+            proveedores.email = data["email"]
+            proveedores.fecha_de_afiliacion = data["fecha_de_afiliacion"]
+            proveedores.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ProveedorFormulario(initial={
+
+            "nombre": proveedores.nombre,
+            "email": proveedores.email,
+            "fecha_de_afiliacion": proveedores.fecha_de_afiliacion,
+        })  
+
+    return render(request, "editarProveedores.html", {"miFormulario": miFormulario, "id": proveedores.id})
+
+
 
