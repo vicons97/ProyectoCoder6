@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from App_zap.views import accesorios, lista_zapatos, proveedores, sucursales, zapato, zapatos, inicio
+from App_zap.views import accesorios, proveedores, sucursales, zapatos, inicio
 
 urlpatterns = [
     path('admin/', admin.site.urls),

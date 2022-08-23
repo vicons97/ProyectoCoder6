@@ -1,5 +1,4 @@
 
-from http.client import OK
 from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
@@ -34,19 +33,6 @@ def sucursales(self):
     return render(self, "sucursales.html")
 
 
-def zapato(self, modelo, talla, color, precio):
-
-    zapato = Zapatos(modelo = modelo, talla = talla, color = color, precio = precio)
-    zapato.save()
-
-    return render(self, "zapato.html", {'zapato': zapato})
-
-
-def lista_zapatos(self):
-
-    lista = Zapatos.objects.all()
-
-    return render(self, "lista_zapatos.html", {'lista_zapatos': lista})
 
 
    # def accesorioFormulario(request):
