@@ -3,9 +3,8 @@ from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_zap.forms import AccesorioFormulario, SucursalFormulario, ZapatoFormulario
+from App_zap.forms import AccesorioFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
 
-from django.views.generic import ListView, DeleteView, CreateView, UpdateView, DetailView
 
 from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
 
@@ -280,40 +279,84 @@ def editarZapato(request, id):
     return render(request, "editarZapato.html", {"miFormulario": miFormulario, "id": zapatos.id})
 
 
+#Inicio de funcionalidades para Proveedores
+
+def listaProveedores(request):
+
+    proveedores = Proveedores.objects.all()
+
+    contexto = {"proveedores": proveedores}
+
+    return render(request, "leerProveedores.html", contexto)
 
 
 
-class ProveedorList(ListView):
+def creaProveedor(request):
 
-    model = Proveedores
-    template_name = 'proveedor_list.html'
-    context_object_name = 'proveedores'
-
-class ProveedorDetail(DetailView):
-
-    model = Proveedores
-    template_name = 'proveedor-detail.html'
-    context_object_name = 'proveedor'
-
-class ProveedorCreate(CreateView):
-
-    model = Proveedores
-    template_name = 'proveedor_create.html'
-    fields = ["nombre", "email", "fecha_de_afiliacion"]
-    success_url = '/App_zap/'
-
-class ProveedorUpdate(UpdateView):
-
-    model = Proveedores 
-    success_url = '/App_zap/'
-    fields = ["nombre", "email", "fecha_de_afiliacion"]
+    if request.method == 'POST':
     
-   
+        miFormulario = ProveedorFormulario(request.POST)
 
-class ProveedorDelete(DeleteView):
+        if miFormulario.is_valid():
 
-    model = Proveedores
-    success_url = '/App_zap/'
+            data = miFormulario.cleaned_data
+
+            proveedores = Proveedores(nombre = data['nombre'], email = data['email'], fecha_de_afiliacion = data['fecha_de_afiliacion'])
+            proveedores.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ProveedorFormulario()  
+
+    return render(request, "proveedoresFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarProveedor(request, id):
+
+    if request.method == 'POST':
+
+        proveedores = Proveedores.objects.get(id = id)
+
+        proveedores.delete()
+
+        proveedores = Proveedores.objects.all()
+
+        contexto = {"proveedores": proveedores}
+
+        return render(request, "leerProveedores.html", contexto)  
+
+
+def editarProveedor(request, id):
+
+    proveedores = Proveedores.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = ProveedorFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            proveedores.nombre = data["nombre"]
+            proveedores.email = data["email"]
+            proveedores.fecha_de_afiliacion = data["fecha_de_afiliacion"]
+            proveedores.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = ProveedorFormulario(initial={
+
+            "nombre": proveedores.nombre,
+            "email": proveedores.email,
+            "fecha_de_afiliacion": proveedores.fecha_de_afiliacion,
+        })  
+
+    return render(request, "editarProveedores.html", {"miFormulario": miFormulario, "id": proveedores.id})
 
 
 

@@ -1,7 +1,7 @@
 
 from django.urls import path
 
-from App_zap.views import ProveedorCreate, ProveedorDelete, ProveedorDetail, ProveedorList, ProveedorUpdate, accesorios, crea_sucursal, creaAccesorio, creaZapato, editar_sucursal, editarAccesorio, editarZapato, eliminarAccesorio, eliminarSucursal, eliminarZapato, listaAccesorios, listaSucursales, listaZapatos, proveedores, sucursales, zapatos, inicio
+from App_zap.views import accesorios, crea_sucursal, creaAccesorio, creaProveedor, creaZapato, editar_sucursal, editarAccesorio, editarProveedor, editarZapato, eliminarAccesorio, eliminarProveedor, eliminarSucursal, eliminarZapato, listaAccesorios, listaProveedores, listaSucursales, listaZapatos, proveedores, sucursales, zapatos, inicio
 
 urlpatterns = [
     
@@ -32,11 +32,11 @@ urlpatterns = [
     path('editaZapatos/<int:id>',editarZapato, name="editaZapatos"),
 
 
-    path('listaProveedores/',ProveedorList.as_view(), name="listaProveedores"),
-    path('detalleProveedores/<int:pk>',ProveedorDetail.as_view(), name="proveedor_detail"),
-    path('creaProveedores/',ProveedorCreate.as_view(), name="creaProveedor"),
-    path('UpdateProveedores/',ProveedorUpdate.as_view(), name="UpdateProveedor"),
-    path('DeleteProveedores/',ProveedorDelete.as_view(), name="DeleteProveedor"),
+    #Proveedores
+    path('listaProveedores/',listaProveedores, name="listaProveedores"),
+    path('creaProveedores/',creaProveedor, name="creaProveedores"),
+    path('eliminaProveedores/<int:id>',eliminarProveedor, name="eliminaProveedores"),
+    path('editaProveedores/<int:id>',editarProveedor, name="editaProveedores"),
 
 
 ]
