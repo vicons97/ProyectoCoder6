@@ -1,7 +1,9 @@
 
 from django.urls import path
-
-from App_zap.views import accesorios, crea_sucursal, creaAccesorio, creaProveedor, creaZapato, editar_sucursal, editarAccesorio, editarProveedor, editarZapato, eliminarAccesorio, eliminarProveedor, eliminarSucursal, eliminarZapato, listaAccesorios, listaProveedores, listaSucursales, listaZapatos, proveedores, sucursales, zapatos, inicio
+from django.contrib.auth.views import LogoutView
+from App_zap.views import (accesorios, crea_sucursal, creaAccesorio, creaProveedor, creaZapato, editar_sucursal, editarAccesorio, 
+editarProveedor, editarZapato, eliminarAccesorio, eliminarProveedor, eliminarSucursal, eliminarZapato, listaAccesorios, 
+listaProveedores, listaSucursales, listaZapatos, proveedores, sucursales, zapatos, inicio, loginView, register,about)
 
 urlpatterns = [
     
@@ -10,6 +12,8 @@ urlpatterns = [
     path('proveedores/',proveedores, name="Proveedores"),
     path('sucursales/',sucursales, name="Sucursales"),
     
+
+    path('about/',about , name='About'),
     path('',inicio, name="Inicio"),
     
     #Sucursales
@@ -38,6 +42,10 @@ urlpatterns = [
     path('eliminaProveedores/<int:id>',eliminarProveedor, name="eliminaProveedores"),
     path('editaProveedores/<int:id>',editarProveedor, name="editaProveedores"),
 
+    #Funciones Login/Register/Logaut
+    path('login/',loginView, name="Login"), #URL DE LOGIN
+    path('registrar/',register, name="Registrar"), #URL DE REGISTRO
+    path('logout/',LogoutView.as_view(template_name='logout.html'), name="Logout"), #URL DE LOGOUT
 
 ]
 

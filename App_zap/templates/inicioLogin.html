@@ -1,0 +1,21 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+{% if user.is_authenticated %}
+      
+    <P>Bienvenido, {{mensaje}} inicio correctamente su sesion. </P>
+
+
+{% else %}
+    {{mensaje}}
+
+
+{% endif %}
+        
+    
+
+{% endblock bloqueQueCambia %}
+    
