@@ -4,6 +4,8 @@ from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
 from App_zap.forms import AccesorioFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login, logout, authenticate
 
 
 from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
@@ -358,5 +360,64 @@ def editarProveedor(request, id):
 
     return render(request, "editarProveedores.html", {"miFormulario": miFormulario, "id": proveedores.id})
 
+
+
+#Aqui comienzan las funcionalidades de login
+
+def loginView(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = AuthenticationForm(request, data=request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            usuario = data["username"]
+            psw = data["password"]
+
+            user = authenticate(username=usuario, passwords=psw )
+
+            if user:
+
+                login(request, user)
+
+                return render(request, 'inicio.html', {"mensaje": f'Bienvenido {usuario}'})
+
+            else:
+
+                return render(request, 'inicio.html', {"mensaje": "El usuario y/o contraseña no coinciden"})
+
+        return render(request, 'inicio.html', {"mensaje": "Formulario invalido"})
+
+
+    else:
+
+        miFormulario = AuthenticationForm()  
+
+    return render(request, "login.html", {"miFormulario": miFormulario})
+
+
+
+
+def register(request):
+
+    if request.method == 'POST':
+
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+
+            username = form.cleaned_data["username"]
+
+            form.save()
+
+            return render(request, "inicio.html", {"mensaje": f'Usuario {username} creado'})
+    else:
+
+        form = UserCreationForm()
+
+    return render(request, "registro.html", {"miFormulario": form})
 
 

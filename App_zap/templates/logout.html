@@ -1,15 +1,14 @@
-
 {% extends 'padre.html' %}
 
 {% load static %}
 
 {% block bloqueQueCambia %}
     
-    <h1>BIENBENIDOS!</h1>
+    <h1>Gracias por visitar, saludos</h1>
 
-    <h4>{{mensaje}}</h4>
 
-    <P>Aqui tenemos la pantalla de inicio</P>
+    <a href="{% url 'Inicio' %}">Ir al inicio</a>
+
 
 {% endblock bloqueQueCambia %}
     
