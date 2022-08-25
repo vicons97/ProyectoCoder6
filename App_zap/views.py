@@ -4,7 +4,8 @@ from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
 from App_zap.forms import AccesorioFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
-
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth import login,logout,authenticate
 
 from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
 
@@ -30,6 +31,10 @@ def proveedores(self):
 def sucursales(self):
 
     return render(self, "sucursales.html")
+
+def about(self):
+    
+    return render(self, "about.html")
 
 
 
@@ -357,6 +362,61 @@ def editarProveedor(request, id):
         })  
 
     return render(request, "editarProveedores.html", {"miFormulario": miFormulario, "id": proveedores.id})
+
+
+    #FUNCION DE LOGIN
+def loginView(request):
+    
+    if request.method == 'POST':
+
+        miFormulario = AuthenticationForm(request, data=request.POST)
+
+        if miFormulario.is_valid():   
+
+            data = miFormulario.cleaned_data
+
+            usuario = data["username"]
+            psw = data["password"]
+
+            user = authenticate(username=usuario, password=psw)
+            
+            if  user: 
+
+                login(request, user)
+                
+                return render(request, "inicioLogin.html", {"mensaje": f'Bienvenido {usuario}'})
+            
+            else:
+
+                return render(request, "inicioLogin.html", {"mensaje": f'Error, datos incorrectos'})
+    
+        return render(request, "inicioLogin.html", {"mensaje": f'Lo Datos de acceso son invalidos, vuelva a iniciar sesion, recuerde colocar bien su password'})
+    
+    else:
+        miFormulario = AuthenticationForm()
+
+        return render(request, "login.html", {"miFormulario": miFormulario})       
+
+
+#FUNCION DE REGISTRAR
+def register(request):  
+
+    if request.method == 'POST':
+
+        form = UserCreationForm (request.POST)
+
+        if form.is_valid():
+
+            username = form.cleaned_data["username"]
+
+            form.save()
+
+            return render(request, "inicioRegister.html" , {"mensanje": f'Usuario : {username} creado'})
+    else:
+
+        form = UserCreationForm ()
+
+    return render(request, "registro.html", {"miFormulario": form})
 
 
 
