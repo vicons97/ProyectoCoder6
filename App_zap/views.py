@@ -3,11 +3,11 @@ from sqlite3 import Cursor
 from django import forms
 from django.http import HttpResponse
 from django.shortcuts import render
-from App_zap.forms import AccesorioFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
+from App_zap.forms import AccesorioFormulario, OpinionesFormulario, ProveedorFormulario, SucursalFormulario, ZapatoFormulario
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login,logout,authenticate
 
-from App_zap.models import Accesorios, Proveedores, Sucursales, Zapatos
+from App_zap.models import Accesorios, Opiniones, Proveedores, Sucursales, Zapatos
 
 # Create your views here.
 
@@ -362,6 +362,99 @@ def editarProveedor(request, id):
         })  
 
     return render(request, "editarProveedores.html", {"miFormulario": miFormulario, "id": proveedores.id})
+
+
+    #Funcionalidad de Opiniones
+
+def listaOpiniones(request):
+
+    opiniones = Opiniones.objects.all()
+
+    contexto = {"opiniones": opiniones}
+
+    return render(request, "leerOpiniones.html", contexto)
+
+
+
+def creaOpinion(request):
+
+    if request.method == 'POST':
+    
+        miFormulario = OpinionesFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            opiniones = Opiniones(titulo = data['titulo'], comentario = data['comentario'], usuario = data['usuario'], email = data['email'])
+            opiniones.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = OpinionesFormulario()  
+
+    return render(request, "opinionesFormulario.html", {"miFormulario": miFormulario})
+
+
+def eliminarOpinion(request, id):
+
+    if request.method == 'POST':
+
+        opiniones = Opiniones.objects.get(id = id)
+
+        opiniones.delete()
+
+        opiniones = Opiniones.objects.all()
+
+        contexto = {"opiniones": opiniones}
+
+        return render(request, "leerOpiniones.html", contexto)  
+
+
+def editarOpinion(request, id):
+
+    opiniones = Opiniones.objects.get(id = id)
+    
+    if request.method == 'POST':
+    
+        miFormulario = OpinionesFormulario(request.POST)
+
+        if miFormulario.is_valid():
+
+            data = miFormulario.cleaned_data
+
+            opiniones.titulo = data["titulo"]
+            opiniones.comentario = data["comentario"]
+            opiniones.usuario = data["usuario"]
+            opiniones.email = data["email"]
+            opiniones.save()
+
+            return render(request, 'inicio.html')
+
+    else:
+
+        miFormulario = OpinionesFormulario(initial={
+
+            "titulo": opiniones.titulo,
+            "comentario": opiniones.comentario,
+            "usuario": opiniones.usuario,
+            "email": opiniones.email,
+        })  
+
+    return render(request, "editarOpiniones.html", {"miFormulario": miFormulario, "id": opiniones.id})
+
+
+
+
+
+
+
+
+
+
+
 
 
     #FUNCION DE LOGIN

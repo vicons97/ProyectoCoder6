@@ -1,0 +1,39 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+
+<h1>OPINIONES DE ZAPATOS</h1>
+
+<h2>Aqui podras encontrar las demas opiniones de zapatos y articulos varios:</h2>
+
+<ul>
+
+    
+    {% for opinion in opiniones %}
+
+        <li>{{opinion}}</li>
+        <div>
+
+            <form action="{% url 'eliminaOpiniones' opinion.id %}" method="POST">{% csrf_token %}
+
+                <button type="submit">Eliminar</button>
+
+            </form>
+
+            <button>
+                <a href="{% url 'editaOpiniones' opinion.id %}">Editar</a>
+            </button>
+
+        </div>
+        
+    {% endfor %}
+        
+
+</ul>
+
+<a href="{% url 'creaOpiniones' %}"> Da tu opinion! </a>
+
+{% endblock bloqueQueCambia %}
