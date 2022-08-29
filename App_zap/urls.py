@@ -1,8 +1,8 @@
 
 from django.urls import path
 from django.contrib.auth.views import LogoutView
-from App_zap.views import (accesorios, crea_sucursal, creaAccesorio, creaProveedor, creaZapato, editar_sucursal, editarAccesorio, 
-editarProveedor, editarZapato, eliminarAccesorio, eliminarProveedor, eliminarSucursal, eliminarZapato, listaAccesorios, 
+from App_zap.views import (accesorios, crea_sucursal, creaAccesorio, creaOpinion, creaProveedor, creaZapato, editar_sucursal, editarAccesorio, editarOpinion, 
+editarProveedor, editarZapato, eliminarAccesorio, eliminarOpinion, eliminarProveedor, eliminarSucursal, eliminarZapato, listaAccesorios, listaOpiniones, 
 listaProveedores, listaSucursales, listaZapatos, proveedores, sucursales, zapatos, inicio, loginView, register,about)
 
 urlpatterns = [
@@ -41,6 +41,13 @@ urlpatterns = [
     path('creaProveedores/',creaProveedor, name="creaProveedores"),
     path('eliminaProveedores/<int:id>',eliminarProveedor, name="eliminaProveedores"),
     path('editaProveedores/<int:id>',editarProveedor, name="editaProveedores"),
+
+    #Opiniones
+    path('listaOpiniones/',listaOpiniones, name="listaOpiniones"),
+    path('creaOpiniones/',creaOpinion, name="creaOpiniones"),
+    path('eliminaOpiniones/<int:id>',eliminarOpinion, name="eliminaOpiniones"),
+    path('editaOpiniones/<int:id>', editarOpinion, name="editaOpiniones"),
+
 
     #Funciones Login/Register/Logaut
     path('login/',loginView, name="Login"), #URL DE LOGIN

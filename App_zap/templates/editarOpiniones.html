@@ -1,0 +1,18 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+    <h1>Aqui puedes editar tu opinion</h1>
+
+    <form action="{% url 'editaOpiniones' id %}" method = "POST">{% csrf_token %}
+
+        {{miFormulario.as_p}}
+
+
+        <input type="submit" value="Enviar">
+
+    </form>
+
+{% endblock bloqueQueCambia %}

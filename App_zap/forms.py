@@ -29,4 +29,12 @@ class ProveedorFormulario(forms.Form):
     email = forms.EmailField(max_length=50)
     fecha_de_afiliacion = forms.DateField()
 
+class OpinionesFormulario(forms.Form):
+    
+    titulo = forms.CharField(max_length=50)
+    comentario = forms.CharField(max_length=500)
+    usuario = forms.CharField(max_length=50)
+    email = forms.EmailField(max_length=50)
+    
+
 
