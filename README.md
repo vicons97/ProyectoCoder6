@@ -1,21 +1,12 @@
-# ProyectoCoder6
-Primera entrega del proyecto final
+# ProyectoFinalCoder
 
+En esta página puedes encontrar la descripción del proyecto, 
 
-Esta es la estrucutra de una tienda online para la venta de zapatoa y articulos relacionados, 
+Este es una página de opinión de zapatos en la que puedes crear un usuario para navegar dentro de ella, 
 
-esta cuenta con una pantalla de inicio la cual te la bienvenida, 
+Dentro de ella podrás añadir comentarios, zapatos, artículos, sucursales y proveedores,
 
-de ahi ya puedes interactuar con sus distintas pestañas, 
+Principalmente se enfoca en que la gente añada comentarios los cuales se comparten en el muro para que todos vean, 
 
-la de zapatos te despliega una pantalla simple donde visualizas informacon general de zapatos, 
+Por temas de tiempo no se pudo continuar a mayor detalle el desarrollo de esta plataforma, pero como producto final nos encontramos satisfechos de los resultados. 
 
-en Accesorios hay un formulario para llenar accesorios, 
-
-En Sucursales ya use el metodo CRUD largo, donde puedes visualizar las sucursales que hay, puedes agregar, eliminar o ediar, 
-
-Por ultimo esta el apartado de Proveedores el cual le quise implementar el metodo CRUD corto, este todavia no me corre ...
-
-
-Nota de equipo:
-Comrobacion de correcciones!

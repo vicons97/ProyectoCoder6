@@ -10,7 +10,7 @@ class Proveedores(models.Model):
     fecha_de_afiliacion = models.DateField(null=False, max_length=50)
 
     def __str__(self):
-        return f'{self.nombre} - {self.fecha_de_afiliacion}'
+        return f'NOMBRE:{self.nombre} - EMAIL:{self.email}'
 
 
 class Zapatos(models.Model):
@@ -19,10 +19,9 @@ class Zapatos(models.Model):
     color = models.CharField(max_length=50)
     talla = models.FloatField()
     precio = models.FloatField()
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, default=1)
 
     def __str__(self) -> str:
-        return f'{self.modelo} - {self.color} - {self.talla}'
+        return f'MODELO:{self.modelo} - COLOR:{self.color} - TALLA:{self.talla}'
 
     class Meta():
         verbose_name = 'My Shoe'
@@ -37,10 +36,9 @@ class Accesorios(models.Model):
     color = models.CharField(max_length=50)
     talla = models.FloatField()
     precio = models.FloatField()
-    proveedor = models.ForeignKey(Proveedores, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
-        return f'{self.modelo} - {self.talla} - {self.color} - {self.proveedor}'
+        return f':MODELO:{self.modelo} - COLOR:{self.color} - TALLA:{self.talla}'
 
 
 class Sucursales(models.Model):
@@ -50,6 +48,15 @@ class Sucursales(models.Model):
     direccion = models.CharField(max_length=50)
 
     def __str__(self):
-        return f'{self.num_Sucursal} - {self.nombre_sucursal}'
+        return f'NUM. SUCURSAL:{self.num_Sucursal} - NOMBRE:{self.nombre_sucursal}'
 
-    
+
+class Opiniones(models.Model):
+
+    titulo = models.CharField(max_length=50)
+    comentario = models.CharField(max_length=500)
+    usuario = models.CharField(max_length=50)
+    email = models.EmailField()
+
+    def __str__(self):
+        return f'TITULO: {self.titulo}:  COMENTARIOS:{self.comentario}. - USUARIO:{self.usuario} - EMAIL:{self.usuario}'

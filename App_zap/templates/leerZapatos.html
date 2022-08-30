@@ -1,0 +1,37 @@
+{% extends 'padre.html' %}
+
+{% load static %}
+
+{% block bloqueQueCambia %}
+    
+
+<h1>Lista de Zapatos</h1>
+
+<ul>
+
+    
+    {% for zapato in zapatos %}
+
+        <li>{{zapato}}</li>
+        <div>
+
+            <form action="{% url 'eliminaZapatos' zapato.id %}" method="POST">{% csrf_token %}
+
+                <button type="submit">Eliminar</button>
+
+            </form>
+
+            <button>
+                <a href="{% url 'editaZapatos' zapato.id %}">Editar</a>
+            </button>
+
+        </div>
+        
+    {% endfor %}
+        
+
+</ul>
+
+<a href="{% url 'creaZapatos' %}"> Crea zapato </a>
+
+{% endblock bloqueQueCambia %}
